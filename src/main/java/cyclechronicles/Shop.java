@@ -73,7 +73,11 @@ public class Shop {
      * @return finished order
      */
     public Optional<Order> repair() {
-        throw new UnsupportedOperationException();
+            Order orderToRepair = pendingOrders.poll(); // Retrieve and remove oldest element
+            logger.info("removed order :"+ orderToRepair.getCustomer()+orderToRepair.getBicycleType()+"from pendingOrders");
+            completedOrders.add(orderToRepair);  // put element into completedorders
+            logger.info("added order :"+ orderToRepair.getCustomer()+orderToRepair.getBicycleType()+"to completedOrders");
+            return Optional.of(orderToRepair);
     }
 
     /**
@@ -86,6 +90,15 @@ public class Shop {
      * @return any finished order for given customer, {@code Optional.empty()} if none found
      */
     public Optional<Order> deliver(String c) {
-        throw new UnsupportedOperationException();
+            Iterator<Order> iterator = completedOrders.iterator(); // Make iterator for orders
+            while (iterator.hasNext()) {
+                Order order = iterator.next();
+                if (order.getCustomer().equals(c)) { // Check for whose order should be delivered
+                    iterator.remove(); // Remove order from CompletedOrders
+                    logger.info("removed order :"+ order.getCustomer()+order.getBicycleType()+"from completedOrders");
+                    return Optional.of(order);  // Returns finished order
+                }
+            }
+            return Optional.empty();  // returns empty optional if no orders are found
     }
 }
