@@ -1,11 +1,40 @@
 package cyclechronicles;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Formatter;
+import java.util.logging.*;
+import java.io.*;
 
 /** A small bike shop. */
 public class Shop {
     private final Queue<Order> pendingOrders = new LinkedList<>();
     private final Set<Order> completedOrders = new HashSet<>();
+
+    public static final Logger logger = Logger.getLogger(Shop.class.getName()); // create logger
+    private static final String log_file = "_contact_log.csv"; // specify log output
+    static{
+        try {
+            FileHandler fileHandler = new FileHandler(log_file, true);
+            fileHandler.setFormatter(new CSVFormatter());
+            logger.addHandler(fileHandler);
+
+            logger.setLevel(Level.INFO);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Fehler beim Initialisieren des Loggers", e);
+        }
+    }
+    public static class CSVFormatter extends Formatter {
+        @Override
+        public String format(LogRecord record) {
+            return String.format("%s; %s; %s; %s\n",
+                    record.getLevel(),          
+                    record.getSourceMethodName(),  
+                    record.getSourceClassName(),    
+                    record.getMessage()    
+            );
+        }
+    }
 
     /**
      * Accept a repair order.
