@@ -1,14 +1,13 @@
 package cyclechronicles;
 
 /** An order for a bike shop. */
-public class Order {
-    /**
-     * Determine the type of bike to be repaired.
-     *
-     * @return type of bicycle
-     */
+public record Order(String customer, Type bicycleType) {
+    public Order {
+        if (customer == null) { throw new IllegalArgumentException("customer cannot be null!"); }
+        if (bicycleType == null) { throw new IllegalArgumentException("bycycle type cannot be null!"); }
+    }
     public Type getBicycleType() {
-        throw new UnsupportedOperationException();
+        return bicycleType;
     }
 
     /**
@@ -17,6 +16,6 @@ public class Order {
      * @return name of customer
      */
     public String getCustomer() {
-        throw new UnsupportedOperationException();
+        return customer;
     }
 }
