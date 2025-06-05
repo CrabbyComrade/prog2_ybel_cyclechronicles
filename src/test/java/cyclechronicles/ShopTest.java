@@ -130,13 +130,13 @@ public class ShopTest {
         Order existingOrder3 = mock(Order.class);
         when(existingOrder3.getCustomer()).thenReturn("Kunde3");
 
-         // Mock a real Set of orders
+         // Make a list of mocked orders
         List mockedCompletedOrders = new ArrayList<>(); // probably bad variable name bcz it's not a mock
         mockedCompletedOrders.add(existingOrder1);
         mockedCompletedOrders.add(existingOrder2);
         mockedCompletedOrders.add(existingOrder3);
 
-        Shop spyShop = spy(shop);
+        Shop spyShop = spy(shop); // make a spy of Shop, allows us to define behaviour for deliver here
         doAnswer(x -> {
             String customer = x.getArgument(0);  // Get customer from given String
             Iterator<Order> iterator = mockedCompletedOrders.iterator(); // Make iterator for mocked orders
@@ -152,7 +152,6 @@ public class ShopTest {
 
         Optional<Order> deliveredOrder = spyShop.deliver(existingOrder2.getCustomer()); // Do mock deliver()
         assertEquals(existingOrder2, deliveredOrder.get()); // Check right order has been delivered
-
         assertTrue(mockedCompletedOrders.size()==2, "Es sollte zwei copmleted orders nach deliver() geben."); // Check if delivered order has been removed
 
         // Test for nonexistent customer
