@@ -121,6 +121,13 @@ public class ShopTest {
     }
 
     @Test
+    void testRepairReal() {
+        Order realOrder = new Order("K", Type.RACE);
+        shop.accept(realOrder);
+        shop.repair();
+    }
+
+    @Test
     void testDeliver() {
         // Mocked orders
         Order existingOrder1 = mock(Order.class);
