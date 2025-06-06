@@ -9,13 +9,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class ShopTest {
 
-    @Mock
     private Order orderMock;
-
     private Shop shop;
 
     @BeforeEach
